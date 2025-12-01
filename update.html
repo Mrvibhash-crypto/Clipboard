@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClipBoard | Media Host</title>
+	<link rel="icon" type="image/x-icon" href="logo.png">
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <!-- FIREBASE COMPAT -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
+    <style>
+        :root {
+            --bg: #050507;
+            --card: #111113;
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #ececec;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.3);
+            --success: #10b981;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg); color: var(--text);
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            background-image: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.05), transparent 50%);
+        }
+
+        .container {
+            width: 500px; max-width: 95%;
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 20px; padding: 40px; text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            position: relative; overflow: hidden;
+        }
+
+        h1 { font-weight: 800; margin-bottom: 10px; }
+        p { color: #888; margin-bottom: 30px; font-size: 0.9rem; }
+
+        /* UPLOAD ZONE */
+        .upload-zone {
+            border: 2px dashed var(--border); border-radius: 12px;
+            padding: 40px 20px; cursor: pointer; transition: 0.3s;
+            background: rgba(255,255,255,0.02);
+        }
+        .upload-zone:hover { border-color: var(--accent); background: rgba(99, 102, 241, 0.05); }
+        .upload-zone i { font-size: 3rem; color: var(--text); margin-bottom: 10px; display: block; }
+        
+        /* PROGRESS BAR */
+        .progress-container {
+            margin-top: 30px; display: none;
+        }
+        .progress-bar-bg {
+            width: 100%; height: 8px; background: #222; border-radius: 4px; overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%; width: 0%; background: var(--accent);
+            box-shadow: 0 0 10px var(--accent); transition: width 0.2s;
+        }
+        .status-text { font-size: 0.8rem; margin-top: 10px; color: var(--accent); font-family: 'JetBrains Mono'; }
+
+        /* RESULT AREA */
+        .result-container { margin-top: 30px; display: none; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+        .link-box {
+            display: flex; gap: 10px; background: #000; border: 1px solid var(--border);
+            padding: 5px; border-radius: 8px; margin-top: 10px;
+        }
+        .url-input {
+            flex: 1; background: transparent; border: none; color: var(--accent);
+            font-family: 'JetBrains Mono'; font-size: 0.85rem; padding: 10px; outline: none;
+        }
+        .copy-btn {
+            background: var(--card); border: 1px solid var(--border); color: white;
+            padding: 0 15px; border-radius: 6px; cursor: pointer; font-weight: 600;
+            transition: 0.2s;
+        }
+        .copy-btn:hover { background: var(--accent); border-color: var(--accent); }
+
+        /* Video Preview */
+        .preview-video { width: 100%; border-radius: 8px; margin-top: 20px; display: none; border: 1px solid var(--border); }
+
+    </style>
+</head>
+<body>
+	
+    <div class="container">
+        <i class="ri-server-fill" style="font-size: 3rem; color: var(--accent);"></i>
+        <h1>Media Host</h1>
+        <p>Upload your video here. Get a permanent link.<br>Paste the link in ClipBoard.</p>
+
+        <input type="file" id="fileInput" accept="video/*" style="display: none;">
+        
+        <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
+            <i class="ri-upload-cloud-2-line"></i>
+            <span id="dropText">Click to Upload Video</span>
+            <div style="font-size:0.7rem; color:#555; margin-top:5px;">get a Code to Post the video after Upload</div>
+        </div>
+
+        <div class="progress-container" id="progressBox">
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+            <div class="status-text" id="statusText">Uploading... 0%</div>
+        </div>
+
+        <div class="result-container" id="resultBox">
+            <div style="color:var(--success); font-weight:bold; font-size:0.9rem;">
+                <i class="ri-checkbox-circle-fill"></i> Upload Complete
+            </div>
+            <div class="link-box">
+                <input type="text" class="url-input" id="urlOutput" readonly>
+                <button class="copy-btn" onclick="copyLink()">Copy</button>
+            </div>
+            <video id="videoPreview" controls class="preview-video"></video>
+        </div>
+    </div>
+
+    <script>
+        // 🔴 PASTE YOUR FIREBASE CONFIG HERE 🔴
+        const firebaseConfig = {
+			apiKey: "AIzaSyDJtwWZrmdMCLvRtEbh-kLViCgNl009VFY",
+			authDomain: "clipboard-app-f01bd.firebaseapp.com",
+			projectId: "clipboard-app-f01bd",
+			storageBucket: "clipboard-app-f01bd.firebasestorage.app",
+			messagingSenderId: "838568745826",
+			appId: "1:838568745826:web:43cb73fa89d9f697b5aa3b"
+		};
+
+        // Init Firebase
+        firebase.initializeApp(firebaseConfig);
+        const storage = firebase.storage();
+
+        const fileInput = document.getElementById('fileInput');
+        const dropText = document.getElementById('dropText');
+        const progressBox = document.getElementById('progressBox');
+        const progressBar = document.getElementById('progressBar');
+        const statusText = document.getElementById('statusText');
+        const resultBox = document.getElementById('resultBox');
+        const urlOutput = document.getElementById('urlOutput');
+        const videoPreview = document.getElementById('videoPreview');
+
+        fileInput.addEventListener('change', handleUpload);
+
+        function handleUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Show Progress UI
+            document.querySelector('.upload-zone').style.display = 'none';
+            progressBox.style.display = 'block';
+
+            // Create Storage Ref (files/randomName.mp4)
+            const fileName = `videos/${Date.now()}_${file.name}`;
+            const storageRef = storage.ref(fileName);
+            const uploadTask = storageRef.put(file);
+
+            // Monitor Upload
+            uploadTask.on('state_changed', 
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    progressBar.style.width = progress + '%';
+                    statusText.innerText = `Uploading... ${Math.floor(progress)}%`;
+                }, 
+                (error) => {
+                    alert("Upload Error: " + error.message);
+                    location.reload();
+                }, 
+                () => {
+                    // Upload Complete
+                    uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                        progressBox.style.display = 'none';
+                        resultBox.style.display = 'block';
+                        
+                        urlOutput.value = downloadURL;
+                        videoPreview.src = downloadURL;
+                        videoPreview.style.display = 'block';
+                    });
+                }
+            );
+        }
+
+        function copyLink() {
+            const copyText = document.getElementById("urlOutput");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(copyText.value);
+            
+            const btn = document.querySelector('.copy-btn');
+            btn.innerText = "Copied!";
+            btn.style.background = "var(--success)";
+            setTimeout(() => {
+                btn.innerText = "Copy";
+                btn.style.background = "var(--card)";
+            }, 2000);
+        }
+    </script>
+
+</body>
+</html>
