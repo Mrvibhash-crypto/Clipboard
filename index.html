@@ -4,12 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClipBoard</title>
+	<link rel="icon" type="image/x-icon" href="logo.png">
+
+    <!-- 🟢 2. DESCRIPTION: This is the gray text under the link -->
+    <meta name="description" content="Share code snippets, host videos, and connect with developers on ClipBoard. A minimalist, high-performance social platform for tech creators.">
+    
+    <!-- 🟢 3. KEYWORDS: What people type to find you -->
+    <meta name="keywords" content="Social Media for Devs, Code Sharing, Developer Community, ClipBoard App, Tech Social Network">
+    
+    <!-- 🟢 4. ROBOTS: Tells Google "Yes, please list this page" -->
+    <meta name="robots" content="index, follow">
     
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 
-    <!-- FIREBASE COMPAT (Guaranteed Functionality) -->
+    <!-- FIREBASE COMPAT -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -90,13 +100,6 @@
             font-size: 0.8rem; cursor: pointer; transition: 0.2s;
         }
         .avatar:hover { border-color: var(--accent); box-shadow: var(--accent-glow); }
-
-        /* --- DROPDOWNS --- */
-        .dropdown { position: absolute; top: 60px; right: 20px; width: 240px; background: #151518; border: 1px solid var(--border); border-radius: 12px; display: none; flex-direction: column; box-shadow: 0 20px 50px rgba(0,0,0,0.6); overflow: hidden; z-index: 1000; animation: scaleIn 0.2s ease; }
-        .dropdown.show { display: flex; }
-        .dropdown-item { padding: 12px 20px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; color: var(--text-muted); transition: 0.2s; display: flex; gap: 10px; align-items: center; }
-        .dropdown-item:hover { background: rgba(255,255,255,0.05); color: white; padding-left: 25px; }
-        @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
 
         /* --- LAYOUT --- */
         .layout { display: flex; flex: 1; overflow: hidden; }
@@ -179,481 +182,30 @@
             transition: 0.2s; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
         }
         .btn-green:hover { transform: translateY(-2px); filter: brightness(1.1); }
-        .btn-close { background: rgba(255,255,255,0.1); border: none; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem; transition: 0.2s; }
-        .btn-close:hover { background: var(--danger); }
 
-        /* AUTH MODAL */
-        .auth-box { width: 400px; height: auto; padding: 50px 40px; text-align: center; }
-
-        /* VIEW MODAL TABS */
-        .view-header { padding: 20px 30px; border-bottom: 1px solid var(--border); background: rgba(20,20,20,0.8); display: flex; justify-content: space-between; align-items: center; }
-        .view-tabs { display: flex; gap: 30px; padding: 0 30px; background: rgba(20,20,20,0.8); border-bottom: 1px solid var(--border); }
-        .tab { padding: 15px 0; font-size: 0.95rem; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; transition: 0.2s; }
-        .tab:hover { color: var(--text); }
-        .tab.active { color: var(--accent); border-color: var(--accent); font-weight: 600; }
-        
-        .view-container { flex: 1; overflow: hidden; display: flex; position: relative; }
-        .tab-content { position: absolute; inset: 0; padding: 30px; overflow-y: auto; display: none; animation: fadeIn 0.3s; }
-        .tab-content.active { display: block; }
-
-        .view-sidebar-inner { width: 280px; border-left: 1px solid var(--border); padding: 30px; background: rgba(10,10,10,0.3); overflow-y: auto; position: absolute; right: 0; top: 0; bottom: 0; }
-        .has-sidebar .tab-content { right: 280px; }
-        
-        /* Animation */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Upload */
-        .upload-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
-        .upload-tab { flex: 1; padding: 12px; text-align: center; border: 1px solid var(--border); border-radius: 10px; cursor: pointer; font-size: 0.9rem; transition: 0.2s; }
-        .upload-tab.active { background: rgba(99, 102, 241, 0.1); color: var(--accent); border-color: var(--accent); }
-        .drop-zone { border: 2px dashed var(--border); padding: 40px; text-align: center; border-radius: 12px; cursor: pointer; margin-bottom: 20px; color: var(--text-muted); transition: 0.2s; }
-        .drop-zone:hover { border-color: var(--accent); background: rgba(99, 102, 241, 0.05); color: white; }
-
-        /* COMMENTS */
-        .comment-item { border-bottom: 1px solid var(--border); padding: 15px 0; font-size: 0.95rem; line-height: 1.6; }
-        .comment-item strong { color: var(--accent); margin-right: 8px; }
-        
-        /* DANGER ZONE */
-        .danger-zone { border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 10px; overflow: hidden; margin-top: 30px; }
-        .danger-row { padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(239, 68, 68, 0.1); background: rgba(239, 68, 68, 0.05); }
-        .danger-btn { background: var(--danger); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; }
-        .danger-btn:hover { background: #dc2626; transform: scale(1.02); }
-
-        /* TOAST */
-        .toast { position: fixed; bottom: 30px; right: 30px; background: #111; border: 1px solid var(--accent); color: white; padding: 15px 30px; border-radius: 50px; font-weight: 600; z-index: 3000; display: none; box-shadow: 0 10px 40px rgba(99, 102, 241, 0.2); }
-
-        @media (max-width: 900px) {
-            .sidebar-left, .sidebar-right { display: none; }
-            .search-container { display: none; }
-            .modal { width: 100%; height: 100%; border-radius: 0; }
-            .view-sidebar-inner { display: none; }
-            .has-sidebar .tab-content { right: 0; }
+        /* Custom Close Button */
+        .btn-close-icon {
+            background: transparent; border: none; color: var(--text-muted);
+            font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            padding: 5px; border-radius: 50%; transition: 0.2s; z-index: 10;
         }
-    </style>
-</head>
-<body>
+        .btn-close-icon:hover { background: rgba(255,255,255,0.1); color: var(--text); }
 
-    <div id="toast" class="toast">Action Successful</div>
-
-    <!-- 1. AUTH MODAL -->
-    <div class="modal-overlay" id="authModal" style="display: flex;" onclick="/* Auth Locked */">
-        <div class="modal auth-box">
-            <i class="ri-terminal-box-fill" style="font-size: 4rem; color: var(--accent); margin-bottom: 20px; filter: drop-shadow(var(--accent-glow));"></i>
-            <h2 style="margin-bottom: 10px;">DevStream</h2>
-            <p style="color:var(--text-muted); margin-bottom:30px;">Sync your code. Share your vision.</p>
-            
-            <input id="authEmail" class="input-dark" placeholder="Email Address">
-            <input id="authPass" type="password" class="input-dark" placeholder="Password">
-            <input id="authName" class="input-dark" placeholder="Username (for Sign Up)" style="display:none;">
-            
-            <button onclick="clipboardLogic.handleAuth()" class="btn-green">Sign In</button>
-            <p id="authSwitch" onclick="clipboardLogic.toggleAuth()" style="margin-top:20px; color:var(--text-muted); font-size:0.9rem; cursor:pointer; transition:0.2s;">Don't have an account? <span style="color:var(--accent); font-weight:600;">Sign Up</span></p>
-            <p id="authError" style="color:var(--danger); font-size:0.8rem; margin-top:15px;"></p>
-        </div>
-    </div>
-
-    <!-- 2. CHANNEL SETUP -->
-    <div class="modal-overlay" id="channelModal" onclick="if(event.target===this) clipboardLogic.closeModal('channelModal')">
-        <div class="modal auth-box">
-            <h3 style="margin-bottom:15px;">Create Channel</h3>
-            <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:25px;">You need a channel identity to post repositories.</p>
-            <input id="channelName" class="input-dark" placeholder="Channel Name (e.g. CodeWizard)">
-            <button onclick="clipboardLogic.createChannel()" class="btn-green">Launch Channel</button>
-        </div>
-    </div>
-
-    <!-- 3. PROFILE EDITOR -->
-    <div class="modal-overlay" id="profileModal" onclick="if(event.target===this) clipboardLogic.closeModal('profileModal')">
-        <div class="modal auth-box">
-            <h3 style="margin-bottom:20px;">Edit Profile</h3>
-            
-            <label style="display:block; text-align:left; font-size:0.8rem; margin-bottom:8px; color:var(--text-muted);">Avatar URL</label>
-            <input id="profAvatar" class="input-dark" placeholder="https://imgur.com/...">
-            
-            <label style="display:block; text-align:left; font-size:0.8rem; margin-bottom:8px; color:var(--text-muted);">Display Name</label>
-            <input id="profName" class="input-dark" placeholder="Your Name">
-            
-            <label style="display:block; text-align:left; font-size:0.8rem; margin-bottom:8px; color:var(--text-muted);">Bio / Tagline</label>
-            <input id="profBio" class="input-dark" placeholder="Frontend Developer...">
-
-            <button onclick="clipboardLogic.saveProfile()" class="btn-green" style="width:100%;">Save Changes</button>
-            <button onclick="clipboardLogic.closeModal('profileModal')" style="width:100%; margin-top:10px; background:transparent; border:1px solid var(--border); color:var(--text-muted); padding:10px; border-radius:10px; cursor:pointer;">Cancel</button>
-        </div>
-    </div>
-
-    <!-- 4. CREATE POST -->
-    <div class="modal-overlay" id="createModal" onclick="if(event.target===this) clipboardLogic.closeModal('createModal')">
-        <div class="modal" style="width:650px; height:auto;">
-            <div style="padding:20px 30px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
-                <strong>New Repository</strong>
-                <button class="btn-close" onclick="clipboardLogic.closeModal('createModal')"><i class="ri-close-line"></i></button>
-            </div>
-            <div style="padding:30px;">
-                <input id="postTitle" class="input-dark" placeholder="Repository Name">
-                <input id="postDesc" class="input-dark" placeholder="Description">
-                
-                <div class="upload-tabs">
-                    <div class="upload-tab active">🔗 External Link (Recommended)</div>
-                </div>
-
-                <div id="urlSection">
-                    <select id="postType" class="input-dark" onchange="clipboardLogic.toggleCodeInput()">
-                        <option value="code">Code Snippet</option>
-                        <option value="media">Media URL</option>
-                    </select>
-                    <input id="postUrl" class="input-dark" style="display:none;" placeholder="Paste YouTube link, Imgur, or MP4 URL...">
-                    <div class="drop-zone" id="fileHint" style="display:none; font-size:0.9rem; text-align:left; padding:20px 30px;">
-                        <strong>Supported:</strong> YouTube, Vimeo, Imgur, Giphy.<br>
-                        <span style="color:var(--text-muted);">For large files, please upload to a host and paste the link here.</span>
-                    </div>
-                    <textarea id="postCode" class="input-dark" style="height:200px; font-family:'JetBrains Mono'; font-size:0.85rem;" placeholder="// Paste your code here..."></textarea>
-                </div>
-
-                <button onclick="clipboardLogic.submitPost()" class="btn-green" style="width:100%; margin-top:10px;">Create Repository</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 5. VIEW POST -->
-    <div class="modal-overlay" id="viewModal" onclick="if(event.target===this) clipboardLogic.closeModal('viewModal')">
-        <div class="modal" style="width: 1000px; flex-direction: row;">
-            <div style="flex: 1; display: flex; flex-direction: column; position: relative;">
-                <div class="view-header">
-                    <div>
-                        <span style="color:var(--accent); font-weight:700; font-size:1.1rem;" id="viewRepoName"></span>
-                        <span style="border:1px solid var(--border); padding:4px 10px; border-radius:20px; font-size:0.7rem; margin-left:15px; color:var(--text-muted); background:rgba(255,255,255,0.05);">Public</span>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:15px;">
-                        <button onclick="clipboardLogic.toggleStar()" style="background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--text); padding:6px 14px; border-radius:8px; cursor:pointer; font-size:0.9rem; transition:0.2s;">
-                            <i class="ri-star-line"></i> Star <span id="viewStarCount" style="font-weight:bold; margin-left:5px;">0</span>
-                        </button>
-                        <button class="btn-close" onclick="clipboardLogic.closeModal('viewModal')"><i class="ri-close-line"></i></button>
-                    </div>
-                </div>
-
-                <div class="view-tabs">
-                    <div class="tab active" onclick="clipboardLogic.switchViewTab('code')" id="btnTabCode">Code</div>
-                    <div class="tab" onclick="clipboardLogic.switchViewTab('issues')" id="btnTabIssues">Issues</div>
-                    <div class="tab" onclick="clipboardLogic.switchViewTab('settings')" id="btnTabSettings" style="display:none;">Settings</div>
-                </div>
-
-                <div class="view-container has-sidebar">
-                    <!-- CODE TAB -->
-                    <div id="tabCode" class="tab-content active">
-                        <div id="viewMainDisplay"></div>
-                        <div style="margin-top:30px; padding-top:20px; border-top:1px solid var(--border);">
-                            <strong style="display:flex; align-items:center; gap:10px; margin-bottom:15px; font-size:0.9rem;"><i class="ri-book-open-line"></i> README.md</strong>
-                            <p id="viewReadMe" style="color:var(--text-muted); line-height:1.7; white-space:pre-wrap; background:rgba(0,0,0,0.2); padding:20px; border-radius:12px; border:1px solid var(--border);"></p>
-                        </div>
-                    </div>
-
-                    <!-- ISSUES TAB -->
-                    <div id="tabIssues" class="tab-content">
-                        <div style="display:flex; gap:15px; margin-bottom:30px;">
-                            <input id="commentInput" class="input-dark" style="margin:0;" placeholder="Leave a comment...">
-                            <button onclick="clipboardLogic.postComment()" class="btn-green" style="width:auto; padding:0 25px;">Comment</button>
-                        </div>
-                        <div id="commentsList"></div>
-                    </div>
-
-                    <!-- SETTINGS TAB -->
-                    <div id="tabSettings" class="tab-content">
-                        <h3 style="color:var(--danger); margin-bottom:20px;">Danger Zone</h3>
-                        <div class="danger-zone">
-                            <div class="danger-row">
-                                <div>
-                                    <h4 style="color:var(--text); font-size:14px; margin-bottom:4px;">Delete this repository</h4>
-                                    <p style="color:var(--text-muted); font-size:13px;">This action cannot be undone.</p>
-                                </div>
-                                <button class="danger-btn" onclick="clipboardLogic.deletePost()">Delete</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- RIGHT SIDEBAR IN MODAL -->
-            <div class="view-sidebar-inner">
-                <div style="font-weight: 700; margin-bottom: 12px; color:var(--text);">About</div>
-                <p id="viewDesc" style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 30px; line-height: 1.6;"></p>
-                <div style="font-weight: 700; margin-bottom: 12px; color:var(--text);">Language</div>
-                <div id="viewLangBadge" style="display:inline-block; font-size:0.8rem; color:var(--text); background:rgba(255,255,255,0.05); padding:4px 10px; border-radius:20px; border:1px solid var(--border);">JavaScript</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MAIN UI -->
-    <header class="navbar">
-        <div class="logo" onclick="location.reload()"><i class="ri-terminal-box-fill"></i> ClipBoard</div>
-        <div class="search-container">
-            <input class="search-input" id="searchInput" placeholder="Search..." onkeyup="clipboardLogic.filterPosts()">
-            <div class="cmd-hint">/</div>
-        </div>
-        <div class="nav-right">
-            <div class="icon-btn" onclick="clipboardLogic.checkChannel()" title="New Post"><i class="ri-add-line"></i></div>
-            
-            <!-- NOTIFICATIONS -->
-            <div style="position:relative;">
-                <div class="icon-btn" onclick="clipboardLogic.toggleDropdown('notifDropdown')">
-                    <i class="ri-notification-3-line"></i>
-                    <div class="notif-badge" id="notifBadge"></div>
-                </div>
-                <div id="notifDropdown" class="dropdown">
-                    <div style="padding:10px 15px; font-weight:bold; background:rgba(0,0,0,0.3); border-bottom:1px solid var(--border); color:var(--text-muted); font-size:0.8rem;">NOTIFICATIONS</div>
-                    <div id="notifList">
-                        <div class="dropdown-item" style="color:#aaa; cursor:default;">No new notifications</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PROFILE -->
-            <div style="position:relative;">
-                <img class="avatar" id="navAvatar" src="https://ui-avatars.com/api/?name=U" onclick="clipboardLogic.toggleDropdown('profileDropdown')">
-                <div id="profileDropdown" class="dropdown">
-                    <div class="dropdown-item" onclick="clipboardLogic.openProfileEditor()"><i class="ri-user-settings-line"></i> Edit Profile</div>
-                    <div class="dropdown-item" onclick="clipboardLogic.filterFeed('my')"><i class="ri-book-mark-line"></i> My Repos</div>
-                    <div class="dropdown-item" onclick="clipboardLogic.logout()" style="color:var(--danger);"><i class="ri-logout-box-r-line"></i> Sign Out</div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <div class="layout">
-        <!-- LEFT SIDEBAR -->
-        <div class="sidebar-left">
-            <div class="sb-header">Explorer</div>
-            <div class="file-item active" onclick="clipboardLogic.filterFeed('all', this)"><i class="ri-home-4-line"></i> All Repos</div>
-            <div class="file-item" onclick="clipboardLogic.filterFeed('trending', this)"><i class="ri-fire-line"></i> Trending</div>
-            <div class="sb-header">File Types</div>
-            <div class="file-item" onclick="clipboardLogic.filterFeed('media', this)"><i class="ri-image-line"></i> Media</div>
-            <div class="file-item" onclick="clipboardLogic.filterFeed('code', this)"><i class="ri-code-s-slash-line"></i> Snippets</div>
-            <div class="sb-header">Personal</div>
-            <div class="file-item" onclick="clipboardLogic.filterFeed('my', this)"><i class="ri-book-mark-line"></i> My Repos</div>
-            <div class="file-item" onclick="clipboardLogic.filterFeed('favorites', this)"><i class="ri-star-line"></i> Starred</div>
-        </div>
-
-        <!-- MAIN FEED -->
-        <div class="main">
-            <div class="grid" id="feedGrid">
-                <div style="text-align:center; margin-top:50px; color:var(--text-muted);">Loading repositories...</div>
-            </div>
-        </div>
-
-        <!-- RIGHT SIDEBAR -->
-        <div class="sidebar-right">
-            <div class="sb-header">Contributions</div>
-            <div class="contrib-graph" id="contribGraph"></div>
-            <div class="sb-header" style="margin-top:25px;">Stats</div>
-            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:15px; padding:15px; background:rgba(255,255,255,0.02); border-radius:10px; border:1px solid var(--border);">
-                <div style="margin-bottom:8px; display:flex; align-items:center; gap:8px;"><span style="width:8px; height:8px; background:var(--green); border-radius:50%; box-shadow:0 0 10px var(--green);"></span> Systems Operational</div>
-                <div>v3.0.0-smooth</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        // -----------------------------------------------------
-        // 🔴 1. PASTE FIREBASE CONFIG HERE 🔴
-        // -----------------------------------------------------
-        <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClipBoard | Smooth Pro</title>
-    
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-
-    <!-- FIREBASE COMPAT (Guaranteed Functionality) -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
-    <style>
-        /* --- 🎨 SMOOTH PREMIUM THEME --- */
-        :root {
-            --bg: #030304;
-            --header: rgba(10, 10, 12, 0.7);
-            --sidebar: rgba(10, 10, 12, 0.6);
-            --card: #0f0f11;
-            --border: rgba(255, 255, 255, 0.08);
-            
-            --text: #f0f0f0;
-            --text-muted: #888888;
-            
-            --accent: #6366f1; /* Indigo */
-            --accent-glow: 0 0 20px rgba(99, 102, 241, 0.3);
-            --green: #10b981;
-            --danger: #ef4444;
-            
-            --radius: 12px;
-            --ease: cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; outline: none; -webkit-tap-highlight-color: transparent; }
-        
-        body { 
-            background-color: var(--bg); 
-            color: var(--text); 
-            height: 100vh; 
-            overflow: hidden; 
-            display: flex; 
-            flex-direction: column;
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.08), transparent 25%), 
-                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.05), transparent 25%);
-        }
-
-        /* Smooth Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #555; }
-
-        /* --- HEADER --- */
-        .navbar { 
-            height: 70px; 
-            background: var(--header); 
-            backdrop-filter: blur(20px); 
-            border-bottom: 1px solid var(--border); 
-            display: flex; align-items: center; justify-content: space-between; 
-            padding: 0 30px; z-index: 100; 
-        }
-        .logo { font-weight: 800; font-size: 1.3rem; display: flex; align-items: center; gap: 10px; color: var(--text); cursor: pointer; letter-spacing: -0.5px; }
-        .logo i { font-size: 1.5rem; color: var(--accent); filter: drop-shadow(var(--accent-glow)); }
-        
-        .search-container { position: relative; width: 450px; }
-        .search-input { 
-            width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border); 
-            color: var(--text); padding: 10px 20px; border-radius: 50px; font-size: 0.9rem; 
-            transition: all 0.3s var(--ease);
-        }
-        .search-input:focus { border-color: var(--accent); background: rgba(0,0,0,0.5); box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
-
-        .nav-right { display: flex; gap: 20px; align-items: center; }
-        .icon-btn { 
-            cursor: pointer; color: var(--text-muted); font-size: 1.2rem; 
-            width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
-            border-radius: 50%; transition: 0.2s; position: relative;
-        }
-        .icon-btn:hover { background: rgba(255,255,255,0.1); color: var(--text); }
-        .notif-badge { position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; background: var(--danger); border-radius: 50%; display: none; box-shadow: 0 0 10px var(--danger); }
-        
-        .avatar { 
-            width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--border); 
-            background: #222; display: flex; align-items: center; justify-content: center; 
-            font-size: 0.8rem; cursor: pointer; transition: 0.2s;
-        }
-        .avatar:hover { border-color: var(--accent); box-shadow: var(--accent-glow); }
-
-        /* --- DROPDOWNS --- */
-        .dropdown { position: absolute; top: 60px; right: 20px; width: 240px; background: #151518; border: 1px solid var(--border); border-radius: 12px; display: none; flex-direction: column; box-shadow: 0 20px 50px rgba(0,0,0,0.6); overflow: hidden; z-index: 1000; animation: scaleIn 0.2s ease; }
+        /* Dropdowns */
+        .dropdown { position: absolute; top: 60px; right: 20px; width: 240px; background: #151518; border: 1px solid var(--border); border-radius: 12px; display: none; flex-direction: column; box-shadow: 0 20px 50px rgba(0,0,0,0.6); overflow: hidden; z-index: 1000; }
         .dropdown.show { display: flex; }
         .dropdown-item { padding: 12px 20px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; color: var(--text-muted); transition: 0.2s; display: flex; gap: 10px; align-items: center; }
         .dropdown-item:hover { background: rgba(255,255,255,0.05); color: white; padding-left: 25px; }
-        @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
 
-        /* --- LAYOUT --- */
-        .layout { display: flex; flex: 1; overflow: hidden; }
-
-        /* SIDEBARS */
-        .sidebar-left { 
-            width: 260px; background: var(--sidebar); backdrop-filter: blur(20px);
-            border-right: 1px solid var(--border); padding: 25px 15px; 
-            display: flex; flex-direction: column; gap: 5px; 
-        }
-        .sb-header { font-size: 0.7rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin: 20px 0 10px; padding-left: 15px; letter-spacing: 1px; }
-        
-        .file-item { 
-            padding: 10px 15px; cursor: pointer; color: var(--text-muted); border-radius: 10px; 
-            display: flex; align-items: center; gap: 12px; font-size: 0.95rem; font-weight: 500;
-            transition: all 0.2s var(--ease);
-        }
-        .file-item:hover { background: rgba(255,255,255,0.04); color: var(--text); transform: translateX(5px); }
-        .file-item.active { background: rgba(99, 102, 241, 0.1); color: var(--accent); border: 1px solid rgba(99, 102, 241, 0.2); }
-        .file-item i { font-size: 1.1rem; }
-
-        .sidebar-right { width: 320px; background: var(--sidebar); border-left: 1px solid var(--border); padding: 30px; overflow-y: auto; backdrop-filter: blur(20px); }
-        .contrib-graph { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 30px; }
-        .contrib-cell { width: 100%; aspect-ratio: 1; background: #222; border-radius: 3px; transition: 0.2s; }
-        .contrib-cell:hover { transform: scale(1.3); z-index: 2; background: var(--green); box-shadow: 0 0 10px var(--green); }
-
-        /* --- FEED --- */
-        .main { flex: 1; overflow-y: auto; padding: 30px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 25px; padding-bottom: 80px; }
-
-        .repo-card { 
-            background: var(--card); border: 1px solid var(--border); border-radius: 16px; 
-            padding: 20px; display: flex; flex-direction: column; cursor: pointer; 
-            transition: all 0.4s var(--ease); position: relative; overflow: hidden;
-        }
-        .repo-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5); }
-        
-        .repo-header { display: flex; justify-content: space-between; margin-bottom: 15px; align-items: flex-start; }
-        .repo-name { font-weight: 700; color: var(--text); font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
-        .repo-badge { font-size: 0.7rem; background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 20px; color: var(--text-muted); border: 1px solid var(--border); }
-        .repo-desc { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 15px; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        
-        .preview-box { 
-            background: #000; border-radius: 10px; overflow: hidden; height: 200px; position: relative; 
-            display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); margin-bottom: 15px;
-        }
-        .preview-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s var(--ease); opacity: 0.8; }
-        .repo-card:hover .preview-box img { transform: scale(1.05); opacity: 1; }
-        .code-preview { padding: 15px; font-family: 'JetBrains Mono'; font-size: 0.8rem; color: #a5d6ff; background: #0b0e11; width: 100%; height: 100%; overflow: hidden; opacity: 0.9; }
-
-        .repo-footer { display: flex; align-items: center; gap: 20px; font-size: 0.85rem; color: var(--text-muted); margin-top: auto; }
-        .lang-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-
-        /* --- MODALS --- */
-        .modal-overlay { 
-            position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 2000; 
-            display: none; justify-content: center; align-items: center; backdrop-filter: blur(10px); 
-            opacity: 0; transition: opacity 0.3s var(--ease);
-        }
-        .modal-overlay.open { display: flex; opacity: 1; }
-        
-        .modal { 
-            width: 900px; height: 85vh; background: #111; border: 1px solid var(--border); 
-            border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; 
-            box-shadow: 0 30px 80px rgba(0,0,0,0.8); transform: scale(0.95); transition: transform 0.3s var(--ease);
-        }
-        .modal-overlay.open .modal { transform: scale(1); }
-        
-        /* Inputs & Buttons */
-        .input-dark { 
-            width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border); 
-            padding: 12px 15px; color: white; margin-bottom: 15px; border-radius: 10px; font-size: 0.95rem; font-family: 'Inter';
-            transition: 0.2s;
-        }
-        .input-dark:focus { border-color: var(--accent); background: rgba(0,0,0,0.2); box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2); }
-        
-        .btn-green { 
-            background: linear-gradient(135deg, var(--green), #059669); color: white; border: none; 
-            padding: 12px 20px; border-radius: 10px; cursor: pointer; font-weight: 600; width: 100%; 
-            transition: 0.2s; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
-        }
-        .btn-green:hover { transform: translateY(-2px); filter: brightness(1.1); }
-        .btn-close { background: rgba(255,255,255,0.1); border: none; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem; transition: 0.2s; }
-        .btn-close:hover { background: var(--danger); }
-
-        /* AUTH MODAL */
-        .auth-box { width: 400px; height: auto; padding: 50px 40px; text-align: center; }
-
-        /* VIEW MODAL TABS */
-        .view-header { padding: 20px 30px; border-bottom: 1px solid var(--border); background: rgba(20,20,20,0.8); display: flex; justify-content: space-between; align-items: center; }
-        .view-tabs { display: flex; gap: 30px; padding: 0 30px; background: rgba(20,20,20,0.8); border-bottom: 1px solid var(--border); }
+        /* Tabs & View */
+        .view-header { padding: 20px 30px; border-bottom: 1px solid var(--border); background: rgba(20,20,20,0.5); display: flex; justify-content: space-between; align-items: center; }
+        .view-tabs { display: flex; gap: 30px; padding: 0 30px; background: rgba(20,20,20,0.5); border-bottom: 1px solid var(--border); }
         .tab { padding: 15px 0; font-size: 0.95rem; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; transition: 0.2s; }
         .tab:hover { color: var(--text); }
         .tab.active { color: var(--accent); border-color: var(--accent); font-weight: 600; }
-        
         .view-container { flex: 1; overflow: hidden; display: flex; position: relative; }
-        .tab-content { position: absolute; inset: 0; padding: 30px; overflow-y: auto; display: none; animation: fadeIn 0.3s; }
-        .tab-content.active { display: block; }
-
+        .tab-content { position: absolute; inset: 0; padding: 30px; overflow-y: auto; display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
         .view-sidebar-inner { width: 280px; border-left: 1px solid var(--border); padding: 30px; background: rgba(10,10,10,0.3); overflow-y: auto; position: absolute; right: 0; top: 0; bottom: 0; }
         .has-sidebar .tab-content { right: 280px; }
         
@@ -666,6 +218,9 @@
         .upload-tab.active { background: rgba(99, 102, 241, 0.1); color: var(--accent); border-color: var(--accent); }
         .drop-zone { border: 2px dashed var(--border); padding: 40px; text-align: center; border-radius: 12px; cursor: pointer; margin-bottom: 20px; color: var(--text-muted); transition: 0.2s; }
         .drop-zone:hover { border-color: var(--accent); background: rgba(99, 102, 241, 0.05); color: white; }
+
+        /* AUTH MODAL */
+        .auth-box { width: 400px; height: auto; padding: 50px 40px; text-align: center; }
 
         /* COMMENTS */
         .comment-item { border-bottom: 1px solid var(--border); padding: 15px 0; font-size: 0.95rem; line-height: 1.6; }
@@ -694,7 +249,7 @@
     <div id="toast" class="toast">Action Successful</div>
 
     <!-- 1. AUTH MODAL -->
-    <div class="modal-overlay" id="authModal" style="display: flex;" onclick="/* Auth Locked */">
+    <div class="modal-overlay" id="authModal" style="display: flex;" onclick="/* Auth must not be closed by click */">
         <div class="modal auth-box">
             <i class="ri-terminal-box-fill" style="font-size: 4rem; color: var(--accent); margin-bottom: 20px; filter: drop-shadow(var(--accent-glow));"></i>
             <h2 style="margin-bottom: 10px;">DevStream</h2>
@@ -704,24 +259,24 @@
             <input id="authPass" type="password" class="input-dark" placeholder="Password">
             <input id="authName" class="input-dark" placeholder="Username (for Sign Up)" style="display:none;">
             
-            <button onclick="clipboardLogic.handleAuth()" class="btn-green">Sign In</button>
-            <p id="authSwitch" onclick="clipboardLogic.toggleAuth()" style="margin-top:20px; color:var(--text-muted); font-size:0.9rem; cursor:pointer; transition:0.2s;">Don't have an account? <span style="color:var(--accent); font-weight:600;">Sign Up</span></p>
+            <button onclick="app.handleAuth()" class="btn-green">Sign In</button>
+            <p id="authSwitch" onclick="app.toggleAuth()" style="margin-top:20px; color:var(--text-muted); font-size:0.9rem; cursor:pointer; transition:0.2s;">Don't have an account? <span style="color:var(--accent); font-weight:600;">Sign Up</span></p>
             <p id="authError" style="color:var(--danger); font-size:0.8rem; margin-top:15px;"></p>
         </div>
     </div>
 
     <!-- 2. CHANNEL SETUP -->
-    <div class="modal-overlay" id="channelModal" onclick="if(event.target===this) clipboardLogic.closeModal('channelModal')">
+    <div class="modal-overlay" id="channelModal" onclick="if(event.target===this) app.closeModal('channelModal')">
         <div class="modal auth-box">
             <h3 style="margin-bottom:15px;">Create Channel</h3>
             <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:25px;">You need a channel identity to post repositories.</p>
             <input id="channelName" class="input-dark" placeholder="Channel Name (e.g. CodeWizard)">
-            <button onclick="clipboardLogic.createChannel()" class="btn-green">Launch Channel</button>
+            <button onclick="app.createChannel()" class="btn-green">Launch Channel</button>
         </div>
     </div>
 
     <!-- 3. PROFILE EDITOR -->
-    <div class="modal-overlay" id="profileModal" onclick="if(event.target===this) clipboardLogic.closeModal('profileModal')">
+    <div class="modal-overlay" id="profileModal" onclick="if(event.target===this) app.closeModal('profileModal')">
         <div class="modal auth-box">
             <h3 style="margin-bottom:20px;">Edit Profile</h3>
             
@@ -734,17 +289,17 @@
             <label style="display:block; text-align:left; font-size:0.8rem; margin-bottom:8px; color:var(--text-muted);">Bio / Tagline</label>
             <input id="profBio" class="input-dark" placeholder="Frontend Developer...">
 
-            <button onclick="clipboardLogic.saveProfile()" class="btn-green" style="width:100%;">Save Changes</button>
-            <button onclick="clipboardLogic.closeModal('profileModal')" style="width:100%; margin-top:10px; background:transparent; border:1px solid var(--border); color:var(--text-muted); padding:10px; border-radius:10px; cursor:pointer;">Cancel</button>
+            <button onclick="app.saveProfile()" class="btn-green" style="width:100%;">Save Changes</button>
+            <button onclick="app.closeModal('profileModal')" style="width:100%; margin-top:10px; background:transparent; border:1px solid var(--border); color:var(--text-muted); padding:10px; border-radius:10px; cursor:pointer;">Cancel</button>
         </div>
     </div>
 
     <!-- 4. CREATE POST -->
-    <div class="modal-overlay" id="createModal" onclick="if(event.target===this) clipboardLogic.closeModal('createModal')">
+    <div class="modal-overlay" id="createModal" onclick="if(event.target===this) app.closeModal('createModal')">
         <div class="modal" style="width:650px; height:auto;">
             <div style="padding:20px 30px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
                 <strong>New Repository</strong>
-                <button class="btn-close" onclick="clipboardLogic.closeModal('createModal')"><i class="ri-close-line"></i></button>
+                <button class="btn-close-icon" onclick="app.closeModal('createModal')"><i class="ri-close-line"></i></button>
             </div>
             <div style="padding:30px;">
                 <input id="postTitle" class="input-dark" placeholder="Repository Name">
@@ -755,7 +310,7 @@
                 </div>
 
                 <div id="urlSection">
-                    <select id="postType" class="input-dark" onchange="clipboardLogic.toggleCodeInput()">
+                    <select id="postType" class="input-dark" onchange="app.toggleCodeInput()">
                         <option value="code">Code Snippet</option>
                         <option value="media">Media URL</option>
                     </select>
@@ -767,13 +322,13 @@
                     <textarea id="postCode" class="input-dark" style="height:200px; font-family:'JetBrains Mono'; font-size:0.85rem;" placeholder="// Paste your code here..."></textarea>
                 </div>
 
-                <button onclick="clipboardLogic.submitPost()" class="btn-green" style="width:100%; margin-top:10px;">Create Repository</button>
+                <button onclick="app.submitPost()" class="btn-green" style="width:100%; margin-top:10px;">Create Repository</button>
             </div>
         </div>
     </div>
 
     <!-- 5. VIEW POST -->
-    <div class="modal-overlay" id="viewModal" onclick="if(event.target===this) clipboardLogic.closeModal('viewModal')">
+    <div class="modal-overlay" id="viewModal" onclick="if(event.target===this) app.closeModal('viewModal')">
         <div class="modal" style="width: 1000px; flex-direction: row;">
             <div style="flex: 1; display: flex; flex-direction: column; position: relative;">
                 <div class="view-header">
@@ -782,17 +337,17 @@
                         <span style="border:1px solid var(--border); padding:4px 10px; border-radius:20px; font-size:0.7rem; margin-left:15px; color:var(--text-muted); background:rgba(255,255,255,0.05);">Public</span>
                     </div>
                     <div style="display:flex; align-items:center; gap:15px;">
-                        <button onclick="clipboardLogic.toggleStar()" style="background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--text); padding:6px 14px; border-radius:8px; cursor:pointer; font-size:0.9rem; transition:0.2s;">
+                        <button onclick="app.toggleStar()" style="background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--text); padding:6px 14px; border-radius:8px; cursor:pointer; font-size:0.9rem; transition:0.2s;">
                             <i class="ri-star-line"></i> Star <span id="viewStarCount" style="font-weight:bold; margin-left:5px;">0</span>
                         </button>
-                        <button class="btn-close" onclick="clipboardLogic.closeModal('viewModal')"><i class="ri-close-line"></i></button>
+                        <button class="btn-close-icon" onclick="app.closeModal('viewModal')"><i class="ri-close-line"></i></button>
                     </div>
                 </div>
 
                 <div class="view-tabs">
-                    <div class="tab active" onclick="clipboardLogic.switchViewTab('code')" id="btnTabCode">Code</div>
-                    <div class="tab" onclick="clipboardLogic.switchViewTab('issues')" id="btnTabIssues">Issues</div>
-                    <div class="tab" onclick="clipboardLogic.switchViewTab('settings')" id="btnTabSettings" style="display:none;">Settings</div>
+                    <div class="tab active" onclick="app.switchViewTab('code')" id="btnTabCode">Code</div>
+                    <div class="tab" onclick="app.switchViewTab('issues')" id="btnTabIssues">Issues</div>
+                    <div class="tab" onclick="app.switchViewTab('settings')" id="btnTabSettings" style="display:none;">Settings</div>
                 </div>
 
                 <div class="view-container has-sidebar">
@@ -809,7 +364,7 @@
                     <div id="tabIssues" class="tab-content">
                         <div style="display:flex; gap:15px; margin-bottom:30px;">
                             <input id="commentInput" class="input-dark" style="margin:0;" placeholder="Leave a comment...">
-                            <button onclick="clipboardLogic.postComment()" class="btn-green" style="width:auto; padding:0 25px;">Comment</button>
+                            <button onclick="app.postComment()" class="btn-green" style="width:auto; padding:0 25px;">Comment</button>
                         </div>
                         <div id="commentsList"></div>
                     </div>
@@ -820,10 +375,10 @@
                         <div class="danger-zone">
                             <div class="danger-row">
                                 <div>
-                                    <h4 style="color:var(--text); font-size:14px; margin-bottom:4px;">Delete this repository</h4>
+                                    <h4 style="color:var(--text); font-size:14px; margin-bottom:6px;">Delete this repository</h4>
                                     <p style="color:var(--text-muted); font-size:13px;">This action cannot be undone.</p>
                                 </div>
-                                <button class="danger-btn" onclick="clipboardLogic.deletePost()">Delete</button>
+                                <button class="danger-btn" onclick="app.deletePost()">Delete</button>
                             </div>
                         </div>
                     </div>
@@ -844,15 +399,15 @@
     <header class="navbar">
         <div class="logo" onclick="location.reload()"><i class="ri-terminal-box-fill"></i> ClipBoard</div>
         <div class="search-container">
-            <input class="search-input" id="searchInput" placeholder="Search..." onkeyup="clipboardLogic.filterPosts()">
+            <input class="search-input" id="searchInput" placeholder="Search..." onkeyup="app.filterPosts()">
             <div class="cmd-hint">/</div>
         </div>
         <div class="nav-right">
-            <div class="icon-btn" onclick="clipboardLogic.checkChannel()" title="New Post"><i class="ri-add-line"></i></div>
+            <div class="icon-btn" onclick="app.checkChannel()" title="New Post"><i class="ri-add-line"></i></div>
             
             <!-- NOTIFICATIONS -->
             <div style="position:relative;">
-                <div class="icon-btn" onclick="clipboardLogic.toggleDropdown('notifDropdown')">
+                <div class="icon-btn" onclick="app.toggleDropdown('notifDropdown')">
                     <i class="ri-notification-3-line"></i>
                     <div class="notif-badge" id="notifBadge"></div>
                 </div>
@@ -866,11 +421,11 @@
 
             <!-- PROFILE -->
             <div style="position:relative;">
-                <img class="avatar" id="navAvatar" src="https://ui-avatars.com/api/?name=U" onclick="clipboardLogic.toggleDropdown('profileDropdown')">
+                <img class="avatar" id="navAvatar" src="https://ui-avatars.com/api/?name=U" onclick="app.toggleDropdown('profileDropdown')">
                 <div id="profileDropdown" class="dropdown">
-                    <div class="dropdown-item" onclick="clipboardLogic.openProfileEditor()"><i class="ri-user-settings-line"></i> Edit Profile</div>
-                    <div class="dropdown-item" onclick="clipboardLogic.filterFeed('my')"><i class="ri-book-mark-line"></i> My Repos</div>
-                    <div class="dropdown-item" onclick="clipboardLogic.logout()" style="color:var(--danger);"><i class="ri-logout-box-r-line"></i> Sign Out</div>
+                    <div class="dropdown-item" onclick="app.openProfileEditor()"><i class="ri-user-settings-line"></i> Edit Profile</div>
+                    <div class="dropdown-item" onclick="app.filterFeed('my')"><i class="ri-book-mark-line"></i> My Repos</div>
+                    <div class="dropdown-item" onclick="app.logout()" style="color:var(--danger);"><i class="ri-logout-box-r-line"></i> Sign Out</div>
                 </div>
             </div>
         </div>
@@ -880,14 +435,14 @@
         <!-- LEFT SIDEBAR -->
         <div class="sidebar-left">
             <div class="sb-header">Explorer</div>
-            <div class="file-item active" onclick="clipboardLogic.filterFeed('all', this)"><i class="ri-home-4-line"></i> All Repos</div>
-            <div class="file-item" onclick="clipboardLogic.filterFeed('trending', this)"><i class="ri-fire-line"></i> Trending</div>
+            <div class="file-item active" onclick="app.filterFeed('all', this)"><i class="ri-home-4-line"></i> All Repos</div>
+            <div class="file-item" onclick="app.filterFeed('trending', this)"><i class="ri-fire-line"></i> Trending</div>
             <div class="sb-header">File Types</div>
-            <div class="file-item" onclick="clipboardLogic.filterFeed('media', this)"><i class="ri-image-line"></i> Media</div>
-            <div class="file-item" onclick="clipboardLogic.filterFeed('code', this)"><i class="ri-code-s-slash-line"></i> Snippets</div>
+            <div class="file-item" onclick="app.filterFeed('media', this)"><i class="ri-image-line"></i> Media</div>
+            <div class="file-item" onclick="app.filterFeed('code', this)"><i class="ri-code-s-slash-line"></i> Snippets</div>
             <div class="sb-header">Personal</div>
-            <div class="file-item" onclick="clipboardLogic.filterFeed('my', this)"><i class="ri-book-mark-line"></i> My Repos</div>
-            <div class="file-item" onclick="clipboardLogic.filterFeed('favorites', this)"><i class="ri-star-line"></i> Starred</div>
+            <div class="file-item" onclick="app.filterFeed('my', this)"><i class="ri-book-mark-line"></i> My Repos</div>
+            <div class="file-item" onclick="app.filterFeed('favorites', this)"><i class="ri-star-line"></i> Starred</div>
         </div>
 
         <!-- MAIN FEED -->
@@ -904,7 +459,7 @@
             <div class="sb-header" style="margin-top:25px;">Stats</div>
             <div style="font-size:0.8rem; color:var(--text-muted); margin-top:15px; padding:15px; background:rgba(255,255,255,0.02); border-radius:10px; border:1px solid var(--border);">
                 <div style="margin-bottom:8px; display:flex; align-items:center; gap:8px;"><span style="width:8px; height:8px; background:var(--green); border-radius:50%; box-shadow:0 0 10px var(--green);"></span> Systems Operational</div>
-                <div>v3.0.0-smooth</div>
+                <div>v2.5.0-stable</div>
             </div>
         </div>
     </div>
@@ -929,10 +484,7 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // -----------------------------------------------------
-        // 2. APP LOGIC (RENAMED to clipboardLogic to prevent conflicts)
-        // -----------------------------------------------------
-        const clipboardLogic = {
+        const app = {
             currentUser: null,
             userChannel: null,
             allPosts: [],
@@ -979,12 +531,11 @@
                 });
             },
 
-            // --- AUTH ---
+            // AUTH
             handleAuth: async function() {
                 const email = document.getElementById('authEmail').value;
                 const pass = document.getElementById('authPass').value;
                 const name = document.getElementById('authName').value;
-                const err = document.getElementById('authError');
                 try {
                     if(this.isLogin) await auth.signInWithEmailAndPassword(email, pass);
                     else {
@@ -992,7 +543,7 @@
                         const cred = await auth.createUserWithEmailAndPassword(email, pass);
                         await cred.user.updateProfile({ displayName: name });
                     }
-                } catch(e) { err.innerText = e.message; }
+                } catch(e) { document.getElementById('authError').innerText = e.message; }
             },
 
             toggleAuth: function() {
@@ -1005,101 +556,7 @@
 
             logout: function() { auth.signOut(); },
 
-            // --- UI ---
-            openModal: function(id) { document.getElementById(id).classList.add('open'); },
-            closeModal: function(id) { document.getElementById(id).classList.remove('open'); },
-            toggleDropdown: function(id) {
-                document.querySelectorAll('.dropdown').forEach(el => { if(el.id !== id) el.classList.remove('show'); });
-                document.getElementById(id).classList.toggle('show');
-            },
-            showToast: function(msg) {
-                const t = document.getElementById('toast');
-                t.innerText = msg; t.style.display = 'block';
-                setTimeout(() => t.style.di
-
-        if (!firebaseConfig.apiKey) alert("⚠️ Paste Firebase Config in index.html!");
-        else firebase.initializeApp(firebaseConfig);
-        
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
-        // -----------------------------------------------------
-        // 2. APP LOGIC (RENAMED to clipboardLogic to prevent conflicts)
-        // -----------------------------------------------------
-        const clipboardLogic = {
-            currentUser: null,
-            userChannel: null,
-            allPosts: [],
-            currentPost: null,
-            isLogin: true,
-
-            init: function() {
-                const graph = document.getElementById('contribGraph');
-                for(let i=0; i<42; i++) {
-                    const d = document.createElement('div');
-                    d.className = 'contrib-cell';
-                    if(Math.random()>0.7) d.style.background= '#238636';
-                    if(Math.random()>0.9) d.style.background= '#39d353';
-                    graph.appendChild(d);
-                }
-
-                auth.onAuthStateChanged(async (user) => {
-                    if(user) {
-                        this.currentUser = user;
-                        document.getElementById('authModal').style.display = 'none';
-                        
-                        const snap = await db.collection("users").doc(user.uid).get();
-                        if(snap.exists) {
-                            this.userChannel = snap.data();
-                            document.getElementById('navAvatar').src = this.userChannel.avatar || `https://ui-avatars.com/api/?name=${user.displayName}`;
-                        } else {
-                            const data = { name: user.displayName, hasChannel: false, avatar: "", bio: "" };
-                            await db.collection("users").doc(user.uid).set(data);
-                            this.userChannel = data;
-                        }
-                        this.startFeed();
-                        this.startNotifications();
-                        this.showToast("Connected");
-                    } else {
-                        this.currentUser = null;
-                        document.getElementById('authModal').style.display = 'flex';
-                    }
-                });
-
-                document.addEventListener('click', (e) => {
-                    if(!e.target.closest('.icon-btn') && !e.target.closest('.avatar')) {
-                        document.querySelectorAll('.dropdown').forEach(el => el.classList.remove('show'));
-                    }
-                });
-            },
-
-            // --- AUTH ---
-            handleAuth: async function() {
-                const email = document.getElementById('authEmail').value;
-                const pass = document.getElementById('authPass').value;
-                const name = document.getElementById('authName').value;
-                const err = document.getElementById('authError');
-                try {
-                    if(this.isLogin) await auth.signInWithEmailAndPassword(email, pass);
-                    else {
-                        if(!name) throw new Error("Username required");
-                        const cred = await auth.createUserWithEmailAndPassword(email, pass);
-                        await cred.user.updateProfile({ displayName: name });
-                    }
-                } catch(e) { err.innerText = e.message; }
-            },
-
-            toggleAuth: function() {
-                this.isLogin = !this.isLogin;
-                document.querySelector('#authModal h2').innerText = this.isLogin ? "Login" : "Create Account";
-                document.querySelector('#authModal button').innerText = this.isLogin ? "Sign In" : "Register";
-                document.getElementById('authSwitch').innerText = this.isLogin ? "Create an account" : "Log In";
-                document.getElementById('authName').style.display = this.isLogin ? "none" : "block";
-            },
-
-            logout: function() { auth.signOut(); },
-
-            // --- UI ---
+            // UI
             openModal: function(id) { document.getElementById(id).classList.add('open'); },
             closeModal: function(id) { document.getElementById(id).classList.remove('open'); },
             toggleDropdown: function(id) {
@@ -1112,7 +569,7 @@
                 setTimeout(() => t.style.display = 'none', 3000);
             },
 
-            // --- PROFILE ---
+            // PROFILE
             openProfileEditor: function() {
                 document.getElementById('profName').value = this.userChannel.name || this.currentUser.displayName;
                 document.getElementById('profAvatar').value = this.userChannel.avatar || "";
@@ -1132,7 +589,7 @@
                 this.showToast("Profile Updated");
             },
 
-            // --- CHANNEL ---
+            // CHANNEL
             checkChannel: function() {
                 if(this.userChannel && this.userChannel.hasChannel) this.openModal('createModal');
                 else this.openModal('channelModal');
@@ -1148,7 +605,7 @@
                 this.openModal('createModal');
             },
 
-            // --- POST ---
+            // POST
             toggleCodeInput: function() {
                 const type = document.getElementById('postType').value;
                 const url = document.getElementById('postUrl');
@@ -1189,7 +646,7 @@
                 document.getElementById('postCode').value = "";
             },
 
-            // --- FEED ---
+            // FEED
             startFeed: function() {
                 const q = db.collection("posts").orderBy("createdAt", "desc");
                 q.onSnapshot((snap) => {
@@ -1250,7 +707,7 @@
                 this.renderFeed(this.allPosts.filter(p => p.title.toLowerCase().includes(term) || p.author.toLowerCase().includes(term)));
             },
 
-            // --- VIEW ---
+            // VIEW
             openView: function(post) {
                 this.currentPost = post;
                 this.openModal('viewModal');
@@ -1348,10 +805,8 @@
             escapeHtml: function(text) { return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
         };
 
-        window.onload = () => clipboardLogic.init();
-        // Export to global scope for button clicks
-        window.clipboardLogic = clipboardLogic;
-        window.app = clipboardLogic; // Backup alias
+        window.onload = () => app.init();
+        window.app = app;
     </script>
 </body>
 </html>
