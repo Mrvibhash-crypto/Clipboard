@@ -469,14 +469,18 @@
         // -----------------------------------------------------
         // 🔴 1. PASTE FIREBASE CONFIG HERE 🔴
         // -----------------------------------------------------
-        const firebaseConfig = {
-			apiKey: "AIzaSyDJtwWZrmdMCLvRtEbh-kLViCgNl009VFY",
-			authDomain: "clipboard-app-f01bd.firebaseapp.com",
-			projectId: "clipboard-app-f01bd",
-			storageBucket: "clipboard-app-f01bd.firebasestorage.app",
-			messagingSenderId: "838568745826",
-			appId: "1:838568745826:web:43cb73fa89d9f697b5aa3b"
-		};
+        // Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDJtwWZrmdMCLvRtEbh-kLViCgNl009VFY",
+  authDomain: "clipboard-app-f01bd.firebaseapp.com",
+  projectId: "clipboard-app-f01bd",
+  storageBucket: "clipboard-app-f01bd.firebasestorage.app",
+  messagingSenderId: "838568745826",
+  appId: "1:838568745826:web:43cb73fa89d9f697b5aa3b"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
         if (!firebaseConfig.apiKey) alert("⚠️ Paste Firebase Config in index.html!");
         else firebase.initializeApp(firebaseConfig);
@@ -809,4 +813,5 @@
         window.app = app;
     </script>
 </body>
+
 </html>
